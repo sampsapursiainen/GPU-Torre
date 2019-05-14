@@ -1,6 +1,6 @@
 %Copyright © 2019- Sampsa Pursiainen & GPU-ToRRe Development Team
 %See: https://github.com/sampsapursiainen/GPU-Torre
-function [path_data] = create_constellation(n_r, m, bistatic_difference, orbiting_velocity, sparsity_factor, back_scattering,plot_constellation,case_num) 
+function [path_data] = create_constellation(n_r, m, bistatic_difference, orbiting_velocity, sparsity_factor, back_scattering,plot_constellation) 
 
 ind_aux = [1:sparsity_factor:n_r]';
 path_data = ind_aux;
@@ -36,8 +36,6 @@ set(gca,'ylim',[-1.01 1.01])
 drawnow;
 hold off;
 end
-
-print(fig,['constellation_' case_num],'-dpng')
 
 path_data_aux = [];
 for i = 1 : size(path_data,2)-1
