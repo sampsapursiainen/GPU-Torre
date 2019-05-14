@@ -3,21 +3,21 @@
 n_inv_iter = 1;
 n_tv_iter = 3;
 n_born = 1;
-inv_alpha = 0.0001;
-inv_beta =0.00001;
+inv_alpha = 0.01;
+inv_beta = 0.0001;
 
-n_r = 128;
-n_constellation = 1;
+n_r = 16;
+n_constellation = 2;
 mixing_rate = 1;
-sparsity_factor = 2;
+sparsity_factor = 1;
 back_scattering = 1;
 plot_constellation = 1;
 bistatic_difference = 4;
 
-noise_level = 0.003;
+noise_level = 0.03;
 
 T = 1.1;
-T_0 = 0.05;
+T_0 = 0.1;
 T_1 = 0.85;
 
 d_reg_param = 1e-2;
@@ -29,7 +29,7 @@ frame_param = 1000;
 
 ichol_tol = 1e-7;
 
-use_gpu = 1;
+use_gpu = 0;
 
 pcg_tol = 1e-5;
 pcg_max_it = 10000;

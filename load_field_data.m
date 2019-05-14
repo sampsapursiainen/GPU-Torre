@@ -31,7 +31,9 @@ data_ind_aux = 0;
  load(['field_data_exact/u_data_' int2str(k) '.mat']); 
  %load(['field_data_exact/f_data_' int2str(k) '.mat']); 
  rec_data_2(k,:,:) = rec_data;
- end
+  end
+ 
+ if n_inv_iter > 1
 
  for k = 1 : n_p
  load(['field_data_correction/u_data_' int2str(k) '.mat']); 
@@ -40,5 +42,6 @@ data_ind_aux = 0;
  f_data_correction(k, :, :) = f_data; 
  end
  
+ end
  
 

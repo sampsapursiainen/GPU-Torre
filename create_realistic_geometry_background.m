@@ -2,5 +2,5 @@
 %See: https://github.com/sampsapursiainen/GPU-Torre
 pderect(0.4*[-1 1 -1 1],'SQ1'); 
 pdecirc(0,0,0.16,'C1');
-make_boundary_curve_2;
+make_boundary_curve;
 pdepoly(p(:,1),p(:,2),'P1');

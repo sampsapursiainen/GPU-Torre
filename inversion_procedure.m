@@ -5,7 +5,7 @@ load data/system_data_1.mat;
 
 
 i_ind = 1;
-%parameters; 
+parameters; 
 
 [path_data] = create_constellation(n_r,n_constellation, bistatic_difference, mixing_rate, sparsity_factor, back_scattering, plot_constellation); 
 
