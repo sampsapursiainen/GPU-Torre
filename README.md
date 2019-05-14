@@ -3,9 +3,9 @@ GPU-accelerated Tomographic Radar Reconstruction Toolbox
 
 GPU-ToRRe is a numerical toolbox for investigating mathematical non-linear tomographic radar inverse imaging problems. GPU-ToRRe aims at enabling fast and robust inversion of sparse full-wave tomography data in 2D. The forward approach utilizes a higher-order Born approximation (BA) to account for complex wave scattering inside the computational domain. The forward modelling approach uses a graphics processing unit (GPU) accelerated finite element time-domain (FETD) method. In the inversion stage, a GPU-computed multigrid-FETD deconvolution routine is applied to enhance computational performance. 
 
-GPU-ToRRe toolbox has been developed for advancing the mathemati tomography of small solar system bodies (SSSB), and especially asteroid interiors which can contain internal details, for example layers, voids, and cracks, observable by a radar. The example 2D model included in this toolbox relates to a SSSB with three internal voids enclosed by a surface layer. 
+The default parameters have been chosen to roughly match with tomographic low-frequency radar imaging of small solar system bodies (SSSB), and especially asteroid interiors which can contain internal details, for example layers, voids, and cracks, observable by a radar. The example 2D model included in this toolbox relates to a SSSB with three internal voids enclosed by a surface layer. 
 
-To run the full simulation, follow these steps
+To run the full simulation, follow these steps:
 
 1. Create the background and exact systems by running the scripts create_system_background.m and create_system_exact.m, respectively.
 
