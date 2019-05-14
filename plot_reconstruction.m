@@ -15,4 +15,3 @@ set(gca,'visible','off');
 colorbar;
 axis equal;
 set(gca,'clim',[1 5]);
-print(fig,['recon_case_' case_num],'-dpng')
