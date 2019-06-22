@@ -1,5 +1,7 @@
 %Copyright © 2019- Sampsa Pursiainen & GPU-ToRRe Development Team
 %See: https://github.com/sampsapursiainen/GPU-Torre
+
+
 if i_ind == 1
 n_p = length(ast_p_ind(:));
 end
@@ -40,6 +42,7 @@ set(1,'paperposition',[0 0 1920 1080]);
 
 c_map = gray(4096);
 
+
 bh_pulse = qam_bh_pulse(pulse_length,carrier_freq,d_t); 
 
 ones_aux_vec = ones(length(ast_ind),1);
@@ -65,24 +68,56 @@ for k = source_list
     p_2 = gpuArray(zeros(n_triangles,1));
     aux_vec_init_1 = gpuArray(zeros(size(u)));
     aux_vec_init_2 = gpuArray(zeros(size(u)));
-    else
+    else   
     u = zeros(n_nodes,1);
     p_1 = zeros(n_triangles,1);
     p_2 = zeros(n_triangles,1);
     end
     
+
+w_yoshida = [-2^(1/3)/(2-2^(1/3)) 1/(2-2^(1/3))];
+c_yoshida = [w_yoshida(2)  (w_yoshida(1)+w_yoshida(2)) (w_yoshida(1)+w_yoshida(2))  w_yoshida(2)]/2;
+d_yoshida = [w_yoshida(2) w_yoshida(1) w_yoshida(2)];
+
     
 for i = 1 : length(t_vec);
 
 t = (i-1)*d_t;    
 f = zeros(n_nodes,1);
 
+f(d_ind_aux) = 0;
 if t <= pulse_length
     f(d_ind_aux) = bh_pulse(i);
 end
 
+for yoshida_ind = 1 : 3
+
+aux_vec_1 = B_1*u;
+if use_gpu 
+aux_vec_2 = A.*aux_vec_1;
+aux_vec_1 = gpuArray(zeros(size(p_1)));
+else
+aux_vec_2 = A\aux_vec_1;
+aux_vec_1 = zeros(size(p_1));
+end
+aux_vec_1(I_t_x) = pml_val*p_1(I_t_x);
+p_1 = p_1 + c_yoshida(yoshida_ind)*d_t*(aux_vec_2 - aux_vec_1);
+
+aux_vec_1 = B_2*u;
+if use_gpu 
+aux_vec_2 = A.*aux_vec_1;
+aux_vec_1 = gpuArray(zeros(size(p_2)));
+else
+aux_vec_2 = A\aux_vec_1;
+aux_vec_1 = zeros(size(p_2));
+end
+aux_vec_1(I_t_y) = pml_val*p_2(I_t_y);
+p_2 = p_2 + c_yoshida(yoshida_ind)*d_t*(aux_vec_2 - aux_vec_1);
+
+
 aux_vec_1 =  - B_1_T*p_1 - B_2_T*p_2 + f;
 aux_vec_1 = aux_vec_1 - R*u;
+
 if use_gpu
 [aux_vec_2] = pcg_iteration_gpu(C,aux_vec_1,pcg_tol,pcg_max_it,M,aux_vec_init_1); 
 aux_vec_init_1 = gpuArray(aux_vec_2);
@@ -95,7 +130,9 @@ aux_vec_1 = zeros(size(u));
 end
 aux_vec_1(I_p_x) = pml_val*u(I_p_x);
 aux_vec_1(I_p_y) = pml_val*u(I_p_y);
-u = u + d_t*(aux_vec_2-aux_vec_1);
+u = u + d_yoshida(yoshida_ind)*d_t*(aux_vec_2-aux_vec_1);
+
+end
 
 aux_vec_1 = B_1*u;
 if use_gpu 
@@ -106,7 +143,7 @@ aux_vec_2 = A\aux_vec_1;
 aux_vec_1 = zeros(size(p_1));
 end
 aux_vec_1(I_t_x) = pml_val*p_1(I_t_x);
-p_1 = p_1 + d_t*(aux_vec_2 - aux_vec_1);
+p_1 = p_1 + c_yoshida(4)*d_t*(aux_vec_2 - aux_vec_1);
 
 aux_vec_1 = B_2*u;
 if use_gpu 
@@ -117,7 +154,9 @@ aux_vec_2 = A\aux_vec_1;
 aux_vec_1 = zeros(size(p_2));
 end
 aux_vec_1(I_t_y) = pml_val*p_2(I_t_y);
-p_2 = p_2 + d_t*(aux_vec_2 - aux_vec_1);
+p_2 = p_2 + c_yoshida(4)*d_t*(aux_vec_2 - aux_vec_1);
+
+
 
 if mod(i-1,data_param)==0
 data_ind = data_ind + 1
@@ -154,7 +193,7 @@ end
 
 if i == frame_param
 figure(1); clf; hold on; set(gcf,'renderer','opengl'); set(gcf,'color',[1 1 1]);
-u_plot = gather(real(u)/max(abs(real(u(:)))));
+u_plot = gather((real(u))/max(abs(real(u(:)))));
 h_surf=trisurf(triangles(:,1:3),nodes(:,1),nodes(:,2),zeros(size(nodes,1),1),u_plot);
 view(0,90); set(gca,'visible','off');
 shading interp; lighting phong; camlight right; camlight left; material dull; 

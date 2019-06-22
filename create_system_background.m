@@ -160,7 +160,7 @@ for i = 1 : 3
             aux_val = 1/12;
            end
           
-           c_vec = c_vec + absorb_val*p_vec'.*aux_val.*ala;
+       c_vec = c_vec + absorb_val*p_vec'.*aux_val.*ala;
                           
        C_part = sparse(triangles(:,i), triangles(:,j), c_vec',n_nodes,n_nodes);
         
