@@ -41,7 +41,7 @@ pcg_max_it = 10000;
 if i_ind == 1
 
 pulse_length = 0.1;
-carrier_freq = 40;   
+carrier_freq = 0;   
 d_t = 0.00025;
 data_param = 20;
 ast_aux_ind = [3];
