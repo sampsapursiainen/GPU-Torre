@@ -38,7 +38,7 @@ for j = 1 : n_inv_iter
 
 L = reshape(J_mat(:,T_0_ind:T_1_ind,:), [(T_1_ind-T_0_ind+1)*n_path n_ast]);
 y = reshape(rec_data(:,T_0_ind:T_1_ind), [(T_1_ind-T_0_ind+1)*n_path 1]);
-relative_noise = 10*log10(noise_level/max(abs(y)))
+relative_noise = 20*log10(noise_level/max(abs(y)))
 y = y + noise_level*randn(size(y));
 y_aux = y + L*x;
 
