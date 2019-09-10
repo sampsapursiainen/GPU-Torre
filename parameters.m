@@ -18,7 +18,7 @@ bistatic_difference = 1;
 
 boundary_param = 640;
 
-noise_level = 0.05;
+noise_level = 0.1;
 
 T = 1.1;
 T_0 = 0.1;
