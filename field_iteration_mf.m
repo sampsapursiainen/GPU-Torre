@@ -1,5 +1,6 @@
 %Copyright © 2019- Sampsa Pursiainen & GPU-ToRRe Development Team
 %See: https://github.com/sampsapursiainen/GPU-Torre
+
 if i_ind == 1
 n_p = length(ast_p_ind(:));
 end
@@ -38,8 +39,6 @@ set(1,'paperposition',[0 0 1920 1080]);
 
 c_map = gray(4096);
 
-bh_pulse = qam_bh_pulse(pulse_length,carrier_freq,d_t); 
-
 ones_aux_vec = ones(length(ast_ind),1);
 
 for k = source_list 
@@ -76,7 +75,7 @@ t = (i-1)*d_t;
 f = zeros(n_nodes,1);
 
 if t <= pulse_length
-    f(d_ind_aux) = bh_pulse(i);
+    f(d_ind_aux) = bh_window(t, pulse_length, carrier_freq, 'complex');
 end
 
 aux_vec_1 =  - div_prod(B_1,B_2,p_1,p_2,triangles) + f;

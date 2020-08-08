@@ -1,5 +1,6 @@
 %Copyright © 2019- Sampsa Pursiainen & GPU-ToRRe Development Team
 %See: https://github.com/sampsapursiainen/GPU-Torre
+
 load data/triangles_1.dat
 load data/nodes_1.dat
 

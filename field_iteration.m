@@ -1,5 +1,6 @@
 %Copyright © 2019- Sampsa Pursiainen & GPU-ToRRe Development Team
 %See: https://github.com/sampsapursiainen/GPU-Torre
+
 if i_ind == 1
 n_p = length(ast_p_ind(:));
 end
@@ -40,8 +41,6 @@ set(1,'paperposition',[0 0 1920 1080]);
 
 c_map = gray(4096);
 
-bh_pulse = qam_bh_pulse(pulse_length,carrier_freq,d_t); 
-
 ones_aux_vec = ones(length(ast_ind),1);
 
 for k = source_list 
@@ -55,6 +54,7 @@ for k = source_list
     end
 
     rec_data = zeros(floor(length(t_vec)/data_param),n_r);
+    t_data = zeros(1,floor(length(t_vec)/data_param));
 
     data_ind = 0;
     amp_rec = zeros(1,n_r);
@@ -78,7 +78,7 @@ t = (i-1)*d_t;
 f = zeros(n_nodes,1);
 
 if t <= pulse_length
-    f(d_ind_aux) = bh_pulse(i);
+    f(d_ind_aux) = bh_window(t, pulse_length, carrier_freq, 'complex');
 end
 
 aux_vec_1 =  - B_1_T*p_1 - B_2_T*p_2 + f;
@@ -132,22 +132,18 @@ aux_vec_2 = U_mat\aux_vec_2;
 aux_vec_2 = aux_vec_2(i_p_vec);
 end
 if use_gpu
-[rec_data(data_ind,:),amp_vec] = qam_demod(gather(u(r_ind)),carrier_freq,data_ind,data_param,d_t); 
-amp_rec = max(amp_rec,amp_vec');
+[rec_data(data_ind,:)] = gather(u(r_ind));
+t_data(data_ind) = t;
 if i_ind == 1
-[f_data(data_ind,:),amp_vec] = qam_demod(gather(aux_vec_2(ast_p_ind)),carrier_freq,data_ind,data_param,d_t);
-amp_f = max(amp_f,amp_vec');
-[u_data(data_ind,:),amp_vec] = qam_demod(gather(u(ast_p_ind)),carrier_freq,data_ind,data_param,d_t);
-amp_u = max(amp_u,amp_vec');
+f_data(data_ind,:) = gather(aux_vec_2(ast_p_ind));
+u_data(data_ind,:) = gather(u(ast_p_ind));
 end
 else
-[rec_data(data_ind,:),amp_vec] = qam_demod(u(r_ind),carrier_freq,data_ind,data_param,d_t);
-amp_rec = max(amp_rec,amp_vec');
+rec_data(data_ind,:) = u(r_ind);
+t_data(data_ind) = t;
 if i_ind == 1    
-[f_data(data_ind,:),amp_vec] = qam_demod(aux_vec_2(ast_p_ind),carrier_freq,data_ind,data_param,d_t);
-amp_f = max(amp_f,amp_vec');
-[u_data(data_ind,:),amp_vec] = qam_demod(u(ast_p_ind),carrier_freq,data_ind,data_param,d_t);
-amp_u = max(amp_u,amp_vec');
+f_data(data_ind,:) = aux_vec_2(ast_p_ind);
+u_data(data_ind,:) = u(ast_p_ind);
 end
 end
 end
@@ -177,13 +173,10 @@ end
 end
 
 if i_ind == 1
-f_data = repmat(amp_f./max(abs(f_data)),size(f_data,1),1).*f_data;
-u_data = repmat(amp_u./max(abs(u_data)),size(u_data,1),1).*u_data;
-save(['./' data_name '/f_data_' int2str(k) '.mat'], 'f_data');
-save(['./' data_name '/u_data_' int2str(k) '.mat'], 'u_data', 'rec_data');
+save(['./' data_name '/f_data_modulated_' int2str(k) '.mat'],'f_data','t_data');
+save(['./' data_name '/u_data_modulated_' int2str(k) '.mat'],'u_data','rec_data','t_data');
 else
-rec_data = repmat(amp_rec./max(abs(rec_data)),size(rec_data,1),1).*rec_data;
-save(['./' data_name '/u_data_' int2str(k) '.mat'], 'rec_data');
+save(['./' data_name '/u_data_modulated_' int2str(k) '.mat'],'rec_data');
 end
 
 toc

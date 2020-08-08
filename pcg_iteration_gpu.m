@@ -1,5 +1,6 @@
 %Copyright © 2019- Sampsa Pursiainen & GPU-ToRRe Development Team
 %See: https://github.com/sampsapursiainen/GPU-Torre
+
 function [x,conv_val,n_iter] = pcg_iteration_gpu(A,b,tol_val,max_it,M,x);
 
 A = gpuArray(A);

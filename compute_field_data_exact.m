@@ -1,5 +1,6 @@
 %Copyright © 2019- Sampsa Pursiainen & GPU-ToRRe Development Team
 %See: https://github.com/sampsapursiainen/GPU-Torre
+
 load data/mesh_2.mat
 load data/system_data_2.mat
 
@@ -18,4 +19,5 @@ end
 end
 
 field_iteration;
+combine_data_exact;
 

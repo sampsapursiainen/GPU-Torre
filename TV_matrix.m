@@ -1,5 +1,6 @@
 %Copyright © 2019- Sampsa Pursiainen & GPU-ToRRe Development Team
 %See: https://github.com/sampsapursiainen/GPU-Torre
+
 function TV_D = TV_matrix(nodes,triangles)
 
 edges_aux = [triangles(:,[2 3]) [1:size(triangles,1)]' 

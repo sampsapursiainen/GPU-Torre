@@ -73,6 +73,7 @@ for i = 1 : n_ast
     J_mat(j, 1:n_t, i) = J_mat(j, 1:n_t, i) + aux_data; 
     
   end
+
   
   time_val = toc;
   if mod(i,25)==0
@@ -80,6 +81,7 @@ for i = 1 : n_ast
   end
     end
 end
+
 
 if use_gpu
 f_data_aux = gpuArray(f_data_quad);

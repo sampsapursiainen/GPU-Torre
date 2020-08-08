@@ -1,15 +1,14 @@
 %Copyright © 2019- Sampsa Pursiainen & GPU-ToRRe Development Team
 %See: https://github.com/sampsapursiainen/GPU-Torre
 
-
 n_inv_iter = 1;
-n_tv_iter = 1;
+n_tv_iter = 3;
 n_born = 1;
-inv_alpha = 0.2;
-inv_beta = 0.001;
+inv_alpha = 0.05;
+inv_beta = 0.0001;
 
 n_r = 16;
-n_constellation = 1;
+n_constellation = 2;
 mixing_rate = 1;
 sparsity_factor = 1;
 back_scattering = 1;
@@ -18,13 +17,13 @@ bistatic_difference = 1;
 
 boundary_param = 640;
 
-noise_level = 0.03;
+noise_level = 0; %0.03;
 
 T = 1.1;
-T_0 = 0.1;
-T_1 = 1.1;
+T_0 = 0.15;
+T_1 = 0.85;
 
-d_reg_param = 1e-2;
+d_reg_param = 1e-3;
 
 pml_val = 15;
 or_radius = 0.16;

@@ -1,5 +1,6 @@
 %Copyright © 2019- Sampsa Pursiainen & GPU-ToRRe Development Team
 %See: https://github.com/sampsapursiainen/GPU-Torre
+
 function [path_data] = create_constellation(n_r, m, bistatic_difference, orbiting_velocity, sparsity_factor, back_scattering,plot_constellation) 
 
 ind_aux = [1:sparsity_factor:n_r]';

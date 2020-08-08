@@ -1,5 +1,6 @@
 %Copyright © 2019- Sampsa Pursiainen & GPU-ToRRe Development Team
 %See: https://github.com/sampsapursiainen/GPU-Torre
+
 function [nodes,edges,triangles,interp_vec] = mesh_refinement(nodes,edges,triangles)
 
 n_nodes = size(nodes,1);

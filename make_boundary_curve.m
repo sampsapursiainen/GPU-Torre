@@ -1,5 +1,6 @@
 %Copyright © 2019- Sampsa Pursiainen & GPU-ToRRe Development Team
 %See: https://github.com/sampsapursiainen/GPU-Torre
+
 n_phi = boundary_param;
 phi = [2*pi/n_phi:2*pi/n_phi:2*pi];
 r = (10+cos(5*phi+2)+sin(3*phi+1));    
