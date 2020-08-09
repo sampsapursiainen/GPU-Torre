@@ -25,6 +25,8 @@ mask_void = griddata(c_tri(:,1),c_tri(:,2),mask_void,X_im,Y_im,'nearest');
 mask_surface = griddata(c_tri(:,1),c_tri(:,2),mask_surface,X_im,Y_im,'nearest');
 mask_asteroid = griddata(c_tri(:,1),c_tri(:,2),mask_asteroid,X_im,Y_im,'nearest');
 
+p_vec = p_vec - bg_permittivity;
+p_vec = max(db(abs(p_vec)/max(abs(p_vec))),plot_threshold_db);
 P_im_exact = griddata(c_tri(:,1),c_tri(:,2),p_vec,X_im,Y_im,'nearest');
 
 %figure(3);
@@ -43,7 +45,7 @@ ast_ind = find(triangles_1(:,4)==3);
 c_tri = (1/3)*(nodes_1(triangles_1(:,1),:) + nodes_1(triangles_1(:,2),:) + nodes_1(triangles_1(:,3),:));
 
 p_vec = ones(size(triangles_1,1),1);
-p_vec(ast_ind) = x + 4;
+p_vec(ast_ind) = max(db(abs(x)/max(abs(x))),plot_threshold_db);
 
 P_im_reconstruction = griddata(c_tri(:,1),c_tri(:,2),p_vec,X_im,Y_im,'nearest');
 
@@ -55,9 +57,9 @@ P_im_reconstruction = griddata(c_tri(:,1),c_tri(:,2),p_vec,X_im,Y_im,'nearest');
 %colorbar;
 %colormap gray;
 
-error_global = immse(P_im_exact,P_im_reconstruction)
-error_void = immse(mask_void.*P_im_exact,mask_void.*P_im_reconstruction)
-error_surface = immse(mask_surface.*P_im_exact,mask_surface.*P_im_reconstruction)
+error_global = sqrt(immse(P_im_exact,P_im_reconstruction))
+error_void = sqrt(immse(mask_void.*P_im_exact,mask_void.*P_im_reconstruction))
+error_surface = sqrt(immse(mask_surface.*P_im_exact,mask_surface.*P_im_reconstruction))
 
 aux_length = length(find(mask_void + mask_surface));
 
@@ -66,7 +68,7 @@ aux_vec = sort(P_im_reconstruction(aux_ind_1));
 thresh_val = aux_vec(aux_length);
 
 P_im_overlap = zeros(size(P_im_reconstruction));
-P_im_overlap(find(P_im_reconstruction.*mask_asteroid < thresh_val)) = 1; 
+P_im_overlap(find(P_im_reconstruction.*mask_asteroid > plot_threshold_db)) = 1; 
 
 aux_val_1 = length(find(mask_surface));
 aux_val_2 = length(find(P_im_overlap.*mask_surface));

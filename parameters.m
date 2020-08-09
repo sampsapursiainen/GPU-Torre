@@ -4,16 +4,18 @@
 n_inv_iter = 1;
 n_tv_iter = 3;
 n_born = 1;
-inv_alpha = 0.05;
+inv_alpha = 0.01;
 inv_beta = 0.0001;
 
-n_r = 16;
-n_constellation = 2;
+n_r = 32;
+n_constellation = 3;
 mixing_rate = 1;
 sparsity_factor = 1;
 back_scattering = 1;
 plot_constellation = 1;
-bistatic_difference = 1;
+bistatic_difference = 2;
+
+plot_threshold_db = -30;
 
 boundary_param = 640;
 
