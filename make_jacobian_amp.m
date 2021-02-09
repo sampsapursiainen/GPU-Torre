@@ -70,7 +70,7 @@ for i = 1 : n_ast
     aux_vec_2 = real(ifft(deconv_vec_2.*aux_data_vec_2,[],2));
     aux_vec_3 = real(ifft(deconv_vec_3.*aux_data_vec_3,[],2));
     aux_data = sum(aux_vec_1(:,n_t + 1 : 2*n_t) + aux_vec_2(:,n_t + 1 : 2*n_t) + aux_vec_3(:,n_t + 1 : 2*n_t),1);
-    J_mat(j, 1:n_t, i) = J_mat(j, 1:n_t, i) + aux_data; 
+    J_mat(j, 1:n_t, i) = J_mat(j, 1:2*n_t, i) + aux_data; 
     
   end
 
