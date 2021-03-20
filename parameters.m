@@ -2,13 +2,28 @@
 %See: https://github.com/sampsapursiainen/GPU-Torre
 
 n_inv_iter = 1;
-n_tv_iter = 3;
+n_tv_iter = 10;
+n_tkh_iter = 1;
 n_born = 1;
-inv_alpha = 0.01;
-inv_beta = 0.0001;
+inv_alpha = 0.5;
+inv_beta = 0.005;%0.01
+inv_omega = 0.01;
+inv_epsilon = 1E-15;%0.01
 
+correct_full_field = 0;
+
+noise_level = 0.1; %noise level added to the data
+
+start_point=1E-4;  %gradient descent iteration for inv_beta start point
+end_point=1E4;     %gradient descent iteration  for inv_beta end point
+discrepancy_h = 0.1; % discrepancy error for discretisation
+latent_noise_factor = 1; %latent noise related to discretisation
+N=50;                   % number of gradient descent sample point
+n_lin_samp=10;          % number of linear sampling iteration
+n_bisection=5;          % number of gradient descent iteration
+    
 n_r = 32;
-n_constellation = 3;
+n_constellation = 1;
 mixing_rate = 1;
 sparsity_factor = 1;
 back_scattering = 1;
@@ -19,13 +34,12 @@ plot_threshold_db = -30;
 
 boundary_param = 640;
 
-noise_level = 0; %0.03;
 
 T = 1.1;
 T_0 = 0.15;
 T_1 = 0.85;
 
-d_reg_param = 1e-3;
+d_reg_param = 1e-4;
 
 pml_val = 15;
 or_radius = 0.16;

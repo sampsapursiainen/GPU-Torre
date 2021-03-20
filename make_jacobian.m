@@ -28,14 +28,16 @@ ind_m = [1 3; 2 4];
 if use_gpu
 f_data_aux = gpuArray(f_data);
 u_data_aux = gpuArray(u_data);
-J_mat = gpuArray(zeros(n_path, n_t, n_ast));
 zeros_aux_1 = gpuArray(zeros(size(f_data_aux,1), size(f_data_aux,2)));
+J_mat = gpuArray(zeros(n_path, 2*n_t, n_ast));
 else
 f_data_aux = f_data;
 u_data_aux = u_data;
-J_mat = zeros(n_path, 2*n_t, n_ast);
 zeros_aux_1 = zeros(size(f_data_aux,1), size(f_data_aux,2));
+J_mat = zeros(n_path, 2*n_t, n_ast);
 end
+
+
 
 nodes_ast = nodes(ast_p_ind,:)';
 
@@ -57,22 +59,22 @@ for i = 1 : n_ast
     fft_aux_u_path_2 = fft([zeros_aux_1 u_data_aux(:, :, triangles_ast(i,2)) zeros_aux_1], [], 2);
     fft_aux_u_path_3 = fft([zeros_aux_1 u_data_aux(:, :, triangles_ast(i,3)) zeros_aux_1], [], 2);
   
-  for  j = 1 : n_path
+  %for  j = 1 : n_path
     
-    deconv_vec_1 = fft_aux_u_path_1(path_data(j,1),:)./(fft_aux+d_reg_param);
-    deconv_vec_2 = fft_aux_u_path_2(path_data(j,1),:)./(fft_aux+d_reg_param);
-    deconv_vec_3 = fft_aux_u_path_3(path_data(j,1),:)./(fft_aux+d_reg_param);
-    aux_data_vec_1 = fft_aux_f_path_1(path_data(j,2),:);
-    aux_data_vec_2 = fft_aux_f_path_2(path_data(j,2),:);
-    aux_data_vec_3 = fft_aux_f_path_3(path_data(j,2),:);
+    deconv_vec_1 = fft_aux_u_path_1(path_data(:,1),:)./(fft_aux+d_reg_param);
+    deconv_vec_2 = fft_aux_u_path_2(path_data(:,1),:)./(fft_aux+d_reg_param);
+    deconv_vec_3 = fft_aux_u_path_3(path_data(:,1),:)./(fft_aux+d_reg_param);
+    aux_data_vec_1 = fft_aux_f_path_1(path_data(:,2),:);
+    aux_data_vec_2 = fft_aux_f_path_2(path_data(:,2),:);
+    aux_data_vec_3 = fft_aux_f_path_3(path_data(:,2),:);
           
-    aux_vec_1 = real(ifft(deconv_vec_1.*aux_data_vec_1,[],2));
-    aux_vec_2 = real(ifft(deconv_vec_2.*aux_data_vec_2,[],2));
-    aux_vec_3 = real(ifft(deconv_vec_3.*aux_data_vec_3,[],2));
-    aux_data = sum(aux_vec_1(:,n_t + 1 : 2*n_t) + aux_vec_2(:,n_t + 1 : 2*n_t) + aux_vec_3(:,n_t + 1 : 2*n_t),1);
-    J_mat(j, 1:n_t, i) = J_mat(j, 1:2*n_t, i) + aux_data; 
+    aux_vec_1 = (real(ifft(deconv_vec_1.*aux_data_vec_1,[],2)));
+    aux_vec_2 = (real(ifft(deconv_vec_2.*aux_data_vec_2,[],2)));
+    aux_vec_3 = (real(ifft(deconv_vec_3.*aux_data_vec_3,[],2)));
+    aux_data = aux_vec_1(:,n_t + 1 : 2*n_t) + aux_vec_2(:,n_t + 1 : 2*n_t) + aux_vec_3(:,n_t + 1 : 2*n_t);
+    J_mat(:, 1:n_t, i) = J_mat(:, 1:n_t, i) + aux_data; 
     
-  end
+  %end
   
   time_val = toc;
   if mod(i,25)==0
@@ -109,22 +111,22 @@ for i = 1 : n_ast
     fft_aux_u_path_2 = fft([zeros_aux_1 u_data_aux(:, :, triangles_ast(i,2)) zeros_aux_1], [], 2);
     fft_aux_u_path_3 = fft([zeros_aux_1 u_data_aux(:, :, triangles_ast(i,3)) zeros_aux_1], [], 2);
   
-  for  j = 1 : n_path
+ % for  j = 1 : n_path
     
-    deconv_vec_1 = fft_aux_u_path_1(path_data(j,1),:)./(fft_aux+d_reg_param);
-    deconv_vec_2 = fft_aux_u_path_2(path_data(j,1),:)./(fft_aux+d_reg_param);
-    deconv_vec_3 = fft_aux_u_path_3(path_data(j,1),:)./(fft_aux+d_reg_param);
-    aux_data_vec_1 = fft_aux_f_path_1(path_data(j,2),:);
-    aux_data_vec_2 = fft_aux_f_path_2(path_data(j,2),:);
-    aux_data_vec_3 = fft_aux_f_path_3(path_data(j,2),:);
+    deconv_vec_1 = fft_aux_u_path_1(path_data(:,1),:)./(fft_aux+d_reg_param);
+    deconv_vec_2 = fft_aux_u_path_2(path_data(:,1),:)./(fft_aux+d_reg_param);
+    deconv_vec_3 = fft_aux_u_path_3(path_data(:,1),:)./(fft_aux+d_reg_param);
+    aux_data_vec_1 = fft_aux_f_path_1(path_data(:,2),:);
+    aux_data_vec_2 = fft_aux_f_path_2(path_data(:,2),:);
+    aux_data_vec_3 = fft_aux_f_path_3(path_data(:,2),:);
           
-    aux_vec_1 = real(ifft(deconv_vec_1.*aux_data_vec_1,[],2));
-    aux_vec_2 = real(ifft(deconv_vec_2.*aux_data_vec_2,[],2));
-    aux_vec_3 = real(ifft(deconv_vec_3.*aux_data_vec_3,[],2));
-    aux_data = sum(aux_vec_1(:,n_t + 1 : 2*n_t) + aux_vec_2(:,n_t + 1 : 2*n_t) + aux_vec_3(:,n_t + 1 : 2*n_t),1);
-    J_mat(j, n_t+1:2*n_t, i) = J_mat(j, n_t+1:2*n_t, i) + aux_data; 
+    aux_vec_1 = (real(ifft(deconv_vec_1.*aux_data_vec_1,[],2)));
+    aux_vec_2 = (real(ifft(deconv_vec_2.*aux_data_vec_2,[],2)));
+    aux_vec_3 = (real(ifft(deconv_vec_3.*aux_data_vec_3,[],2)));
+    aux_data = aux_vec_1(:,n_t + 1 : 2*n_t) + aux_vec_2(:,n_t + 1 : 2*n_t) + aux_vec_3(:,n_t + 1 : 2*n_t);
+    J_mat(:, n_t+1:2*n_t, i) = J_mat(:, n_t+1:2*n_t, i) + aux_data; 
     
-  end
+  %end
 
 
  time_val = toc;
@@ -134,8 +136,6 @@ for i = 1 : n_ast
     end
 end
 
-if use_gpu
 J_mat = gather(J_mat);
-end
 
 close(h);

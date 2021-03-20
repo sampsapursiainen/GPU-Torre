@@ -12,12 +12,12 @@ n_t_bg = length(t_vec(1:data_param:end));
 
 u_data_background = zeros(n_r, n_t_bg, n_p);
 f_data_background = zeros(n_r, n_t_bg, n_p); 
-u_data_correction = zeros(n_r, n_t_bg, n_p);
-f_data_correction = zeros(n_r, n_t_bg, n_p); 
+u_data_correction = zeros(n_p, n_t_bg, n_p);
+f_data_correction = zeros(n_p, n_t_bg, n_p); 
 u_data_background_quad = zeros(n_r, n_t_bg, n_p);
 f_data_background_quad = zeros(n_r, n_t_bg, n_p); 
-u_data_correction_quad = zeros(n_r, n_t_bg, n_p);
-f_data_correction_quad = zeros(n_r, n_t_bg, n_p); 
+u_data_correction_quad = zeros(n_p, n_t_bg, n_p);
+f_data_correction_quad = zeros(n_p, n_t_bg, n_p); 
 
 rec_data_1 = zeros(n_r, 2*n_t_bg, n_r); 
 rec_data_2 = zeros(n_r, 2*n_t_bg, n_r); 

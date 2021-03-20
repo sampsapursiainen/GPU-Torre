@@ -43,25 +43,16 @@ y = reshape(rec_data(:,T_0_ind:T_1_ind), [(T_1_ind-T_0_ind+1)*n_path 1]);
 relative_noise = 20*log10(noise_level/max(abs(y)))
 y = y + noise_level*randn(size(y));
 
+
 for j = 1 : n_inv_iter
 
 L = reshape(J_mat(:,T_0_ind:T_1_ind,:), [(T_1_ind-T_0_ind+1)*n_path n_ast]);
-W_mat = (1/sqrt(size(L,2)))*(inv_alpha*TV_D + inv_beta*eye(n_ast,n_ast));
-LTL = L'*L;
 
-% Total variation 
-
-for i = 1 : n_tv_iter
-
-x_update = (LTL + W_mat'*((diag(1./(theta+inv_epsilon))*W_mat)))\(L'*y);
-theta = sqrt((W_mat*x_update).^2) + inv_epsilon; 
-
-end
-
-x_update = inv_omega*x_update; 
+% Backpropagation
+x_update = inv_omega*L'*y/norm(L,'fro');
 
 y = y - L*x_update;
-x = x + x_update/inv_omega;
+x = x + x_update;
 
 plot_reconstruction;
 
