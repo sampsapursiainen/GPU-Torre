@@ -9,7 +9,7 @@ parameters;
 
 n_p = size(ast_p_ind,1);
 
-data_name = 'field_data_background';
+data_name = 'field_data_correction';
 
 for k = 1 : n_p
 
