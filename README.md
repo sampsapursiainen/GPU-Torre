@@ -1,22 +1,19 @@
 # GPU-ToRRe
-GPU-accelerated Tomographic Radar Reconstruction Toolbox
+GPU-Torre - toolbox for full wavefield modelling and tomographic reconstruction.
 
-GPU-ToRRe is a numerical toolbox for investigating mathematical non-linear tomographic radar inverse imaging problems. GPU-ToRRe aims at enabling fast and robust inversion of sparse full-wave tomography data in 2D. The forward approach utilizes a higher-order Born approximation (BA) to account for complex wave scattering inside the computational domain. The forward modelling approach uses a graphics processing unit (GPU) accelerated finite element time-domain (FETD) method. In the inversion stage, a GPU-computed multigrid-FETD deconvolution routine is applied to enhance computational performance. 
+GPU-Torre and GPU-Torre-3D are open Matlab-based toolboxes for numerical investigation of mathematical non-linear tomographic radar inverse imaging problems in 2D and 3D. They aim at enabling fast and robust inversion of sparse full-wave tomography data. The forward modelling approach applies a graphics processing unit (GPU) accelerated finite element time-domain (FETD) method and Born approximation (BA) to account for complex wave scattering inside the computational domain. In the inversion stage, a GPU-accelerated multigrid-FETD deconvolution routine is utilized to enhance computational performance. GPU-Torre frontend provides a graphical interface to manage the parameters of the toolbox and to create script pipelines for advanced modelling and reconstruction tasks in full wavefield simulation, tomographic reconstruction, signal preprocessing, 3D model creation, as well as in design and manufacturing (3D printing) of experimental analogue objects. GPU-Torre and GPU-Torre-3D packages have been used in the following studies.
 
-The default parameters have been chosen to roughly match with tomographic low-frequency radar imaging of small solar system bodies (SSSB), and especially asteroid interiors which can contain internal details, for example layers, voids, and cracks, observable by a radar. The example 2D model included in this toolbox relates to a SSSB with three internal voids enclosed by a surface layer. 
+Sorsa, L. I., Pursiainen, S., & Eyraud, C. (2021). Analysis of full microwave propagation and backpropagation for a complex asteroid analogue via single-point quasi-monostatic data. Astronomy & Astrophysics, 645, A73.
 
-To run the full simulation, follow these steps:
+Sorsa, L. I., Eyraud, C., Hérique, A., Takala, M., Pursiainen, S., & Geffrin, J. M. (2021). Complex-structured 3D-printed wireframes as asteroid analogues for tomographic microwave radar measurements. Materials & Design, 198, 109364.
+ISO 690	
 
-1. Create the background and exact systems by running the scripts create_system_background.m and create_system_exact.m, respectively.
+Eyraud, C., Sorsa, L. I., Geffrin, J. M., Takala, M., Henry, G., & Pursiainen, S. (2020). Full wavefield simulation versus measurement of microwave scattering by a complex 3D-printed asteroid analogue. Astronomy & Astrophysics, 643, A68.
 
-2. Compute the forward simulations for the background and the exact systems by running the scripts compute_field_data_background.m, and compute_field_data_exact.m. These are required for linear inversion. 
+Sorsa, L. I., Takala, M., Eyraud, C., & Pursiainen, S. (2020). A time-domain multigrid solver with higher-order born approximation for full-wave radar tomography of a complex-shaped target. IEEE Transactions on Computational Imaging, 6, 579-590.
 
-3. To run the non-linear inversion with higher-order BA, run the script compute_field_data_correction.m to update the wave-field corrections due to higher order scattering. 
+Sorsa, L. I., Takala, M., Bambach, P., Deller, J., Vilenius, E., & Pursiainen, S. (2019). Bistatic full-wave radar tomography detects deep interior voids, cracks, and boulders in a rubble-pile asteroid model. The Astrophysical Journal, 872(1), 44.
 
-4. Run the script load_field_data.m to load wave-field data for the inversion stage.
+Takala, M., Us, D., & Pursiainen, S. (2018). Multigrid-based inversion for volumetric radar imaging with asteroid interior reconstruction as a potential application. IEEE Transactions on Computational Imaging, 4(2), 228-240.
 
-5. To invert the data, run the script inversion_procedure.m.
-
-All the parameters for forward and inversion computations are stored in the file parameters.m.
-
-A shortcut to the inversion stage: We have uploaded the system files and data from steps 1 and 2 to the folders data, field_data_background, and field_data_exact so it is possible to start directly from the step 3.
+Pursiainen, S., & Kaasalainen, M. (2016). Orbiter-to-orbiter tomography: a potential approach for small solar system bodies. IEEE Transactions on Aerospace and Electronic Systems, 52(6), 2747-2759.
