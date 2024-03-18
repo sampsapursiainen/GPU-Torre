@@ -35,7 +35,7 @@ end
 
 p_vec = ones(size(triangles,1),1);
 ast_ind = find(ismember(triangles(:,4),ast_aux_ind));
-cover_ind = find(ismember(triangles(:,4),cover_aux_ind));
+cover_ind = find(ismember(triangles(:,4),ast_aux_ind(2)));
 ast_ind_1 = find(ismember(triangles(:,4),ast_aux_ind(1)));
 
 N_s = 150;
